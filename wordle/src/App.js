@@ -60,6 +60,8 @@ function App() {
 
   const [guess, setGuess] = React.useState("")
   const [guesses, setGuesses] = React.useState([]);
+  const [green, setGreen] = React.useState([]);
+  const [yellow, setYellow] = React.useState([]);
 
   return (
     <Stack direction="column" justifyContent="center" alignItems="center" spacing={3} sx={{ height: "100%" }}>
@@ -104,17 +106,29 @@ function App() {
             else if (guess == target || currentRow == 5) {
               gameOver();
             } else {
+              //iterating through each letter of the guess
+              for (var i = 0; i < 5; i++) {
+                if (guess[i] == target[i]) {
+                  document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
+                } else if (target.includes(guess[i])) {
+                  console.log(guess[i]);
+                  console.log()
+                  for (var j = 0; j < 5; j++) {
+                    if (target[j] == guess[i]) {
+                      document.getElementById(j + String(currentRow)).style.backgroundColor = "#c9b458";
+                      //break;
+                    }
+                  }
+                } else {
+                  document.getElementById(i + String(currentRow)).style.backgroundColor = "#787c7e";
+                }
+                document.getElementById(i + String(currentRow)).style.color = "white";
+              }
+
               currentRow++;
               var temp = [...guesses, guess];
               setGuesses(temp);
               setGuess("")
-
-              //iterating through each letter of the guess
-              for (var i = 0; i < 5; i++) {
-                if (guess[i] == target[i]) {
-
-                }
-              }
             }
           }}>Enter</Button>
           <Key l="z" guess={guess} setGuess={setGuess} />
