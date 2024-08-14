@@ -1,11 +1,12 @@
 .box {
-  width: 3em;
-  height: 3em;
+  width: 3rem;
+  height: 3rem;
   border: 2.5px solid gray;
   display: flex;
   align-items: center;
   justify-content: center;
-  font: 40px;
+  font-size: 35px;
+  line-height: 2.5rem;
   background-color: white;
 }
 
