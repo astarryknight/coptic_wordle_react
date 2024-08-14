@@ -15,31 +15,31 @@ function Row({ rowNum, guess, guesses }) {
   if (n == currentRow) {
     return (
       <Stack direction="row" spacing={.75}>
-        <Box className="box">{guess[0]}</Box>
-        <Box className="box">{guess[1]}</Box>
-        <Box className="box">{guess[2]}</Box>
-        <Box className="box">{guess[3]}</Box>
-        <Box className="box">{guess[4]}</Box>
-      </Stack>
+        <Box id={"0" + n} className="box">{guess[0]}</Box>
+        <Box id={"1" + n} className="box">{guess[1]}</Box>
+        <Box id={"2" + n} className="box">{guess[2]}</Box>
+        <Box id={"3" + n} className="box">{guess[3]}</Box>
+        <Box id={"4" + n} className="box">{guess[4]}</Box>
+      </Stack >
     )
   } else if (n < currentRow) {
     return (
       <Stack direction="row" spacing={.75}>
-        <Box className="box">{guesses[n][0]}</Box>
-        <Box className="box">{guesses[n][1]}</Box>
-        <Box className="box">{guesses[n][2]}</Box>
-        <Box className="box">{guesses[n][3]}</Box>
-        <Box className="box">{guesses[n][4]}</Box>
+        <Box id={"0" + n} className="box">{guesses[n][0]}</Box>
+        <Box id={"1" + n} className="box">{guesses[n][1]}</Box>
+        <Box id={"2" + n} className="box">{guesses[n][2]}</Box>
+        <Box id={"3" + n} className="box">{guesses[n][3]}</Box>
+        <Box id={"4" + n} className="box">{guesses[n][4]}</Box>
       </Stack>
     )
   } else {
     return (
       <Stack direction="row" spacing={.75}>
-        <Box className="box"></Box>
-        <Box className="box"></Box>
-        <Box className="box"></Box>
-        <Box className="box"></Box>
-        <Box className="box"></Box>
+        <Box id={"0" + n} className="box"></Box>
+        <Box id={"1" + n} className="box"></Box>
+        <Box id={"2" + n} className="box"></Box>
+        <Box id={"3" + n} className="box"></Box>
+        <Box id={"4" + n} className="box"></Box>
       </Stack>
     )
   }
@@ -63,7 +63,7 @@ function App() {
 
   return (
     <Stack direction="column" justifyContent="center" alignItems="center" spacing={3} sx={{ height: "100%" }}>
-      <Typography>Hi</Typography>
+      <Typography level="h1" >Wordle!</Typography>
       <Stack direction="column" spacing={.75}>
         <Row rowNum="0" guess={guess} guesses={guesses} />
         <Row rowNum="1" guess={guess} guesses={guesses} />
@@ -108,6 +108,13 @@ function App() {
               var temp = [...guesses, guess];
               setGuesses(temp);
               setGuess("")
+
+              //iterating through each letter of the guess
+              for (var i = 0; i < 5; i++) {
+                if (guess[i] == target[i]) {
+
+                }
+              }
             }
           }}>Enter</Button>
           <Key l="z" guess={guess} setGuess={setGuess} />
