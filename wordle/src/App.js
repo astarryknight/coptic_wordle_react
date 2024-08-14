@@ -106,24 +106,42 @@ function App() {
             else if (guess == target || currentRow == 5) {
               gameOver();
             } else {
+              var tempTarget = [...target];
+              var t = []
               //iterating through each letter of the guess
+
               for (var i = 0; i < 5; i++) {
                 if (guess[i] == target[i]) {
                   document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
-                } else if (target.includes(guess[i])) {
-                  console.log(guess[i]);
-                  console.log()
-                  for (var j = 0; j < 5; j++) {
-                    if (target[j] == guess[i]) {
-                      document.getElementById(j + String(currentRow)).style.backgroundColor = "#c9b458";
-                      //break;
-                    }
-                  }
-                } else {
-                  document.getElementById(i + String(currentRow)).style.backgroundColor = "#787c7e";
+                  tempTarget.splice(i, 1)
+                  t.push(i)
+                  console.log(i)
+                  console.log(tempTarget)
                 }
-                document.getElementById(i + String(currentRow)).style.color = "white";
               }
+
+              var arr = arr.filter((value, index) => !indexes.includes(index));
+
+
+              for (var i = 0; i < t.length; i++) {
+
+              }
+              console.log(tempTarget)
+
+              // for (var i = 0; i < 5; i++) {
+              //   if (tempTarget.includes(guess[i])) {
+              //     console.log(guess[i]);
+              //     console.log()
+              //     for (var j = 0; j < 5; j++) {
+              //       if (target[j] == guess[i]) {
+              //         document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
+              //         //break;
+              //       }
+              //     }
+              //     document.getElementById(i + String(currentRow)).style.backgroundColor = "#787c7e";
+              //   }
+              //   document.getElementById(i + String(currentRow)).style.color = "white";
+              // }
 
               currentRow++;
               var temp = [...guesses, guess];
