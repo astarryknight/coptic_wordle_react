@@ -10,20 +10,6 @@ import Typography from '@mui/joy/Typography';
 var target = "happy"
 var currentRow = 0;
 
-function addLetter({ l, guess, setGuess }) {
-  alert(guess)
-  if (guess.length <= 4) { setGuess(guess.concat(l)); };
-  alert("he")
-}
-
-function removeLetter({ guess }) {
-  guess = guess.substring(0, guess.length - 2)
-}
-
-function submitGuess() {
-
-}
-
 function Row({ rowNum, guess, guesses }) {
   var n = parseInt(rowNum)
   if (n == currentRow) {
@@ -111,7 +97,19 @@ function App() {
           <Key l="l" guess={guess} setGuess={setGuess} />
         </Stack>
         <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
-          <Button sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={function () { ({ guess }.guess == target || currentRow == 5 ? gameOver() : (currentRow++)) }}>Enter</Button>
+          <Button sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={function () {
+            if ({ guess }.guess.length < 5) {
+              return;
+            }
+            else if (guess == target || currentRow == 5) {
+              gameOver();
+            } else {
+              currentRow++;
+              var temp = [...guesses, guess];
+              setGuesses(temp);
+              setGuess("")
+            }
+          }}>Enter</Button>
           <Key l="z" guess={guess} setGuess={setGuess} />
           <Key l="x" guess={guess} setGuess={setGuess} />
           <Key l="c" guess={guess} setGuess={setGuess} />

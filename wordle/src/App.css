@@ -2,6 +2,10 @@
   width: 3em;
   height: 3em;
   border: 2.5px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 40px;
 }
 
 html,
