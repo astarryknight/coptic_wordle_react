@@ -9,6 +9,10 @@
   background-color: white;
 }
 
+.key:hover {
+  background-color: #d3d6da !important;
+}
+
 html,
 body,
 #root {

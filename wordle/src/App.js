@@ -59,12 +59,21 @@ function Row({ rowNum, guess, guesses }) {
 
 function Key({ l, guess, setGuess }) {
   return (
-    <Button sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={() => { ({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l)) }}>{l.toUpperCase()}</Button>
+    <Button className="key" id={l} sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={() => { ({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l)) }}>{l.toUpperCase()}</Button>
   )
 }
 
-function gameOver() {
-  //the game ends...
+function resetColors() {
+  var l = document.getElementsByClassName("box");
+  for (var i = 0; i < l.length; i++) {
+    l[i].style.backgroundColor = "white"
+  }
+
+  var l = document.getElementsByClassName("key");
+  for (var i = 0; i < l.length; i++) {
+    l[i].style.backgroundColor = "#d3d6da"
+  }
+
 }
 
 
@@ -72,12 +81,10 @@ function App() {
 
   const [guess, setGuess] = React.useState("")
   const [guesses, setGuesses] = React.useState([]);
-  const [green, setGreen] = React.useState([]);
-  const [yellow, setYellow] = React.useState([]);
 
   return (
     <Stack direction="column" justifyContent="center" alignItems="center" spacing={3} sx={{ height: "100%" }}>
-      <Typography level="h1" >Wordle!</Typography>
+      <Typography level="h1" >Wordle! INFINITE</Typography>
       <Stack direction="column" spacing={.75}>
         <Row rowNum="0" guess={guess} guesses={guesses} />
         <Row rowNum="1" guess={guess} guesses={guesses} />
@@ -86,7 +93,7 @@ function App() {
         <Row rowNum="4" guess={guess} guesses={guesses} />
         <Row rowNum="5" guess={guess} guesses={guesses} />
       </Stack>
-      <Stack direction="column" alignItems="center" spacing={.7}>
+      <Stack direction="column" alignItems="center" spacing={.7} id="keyboard">
         <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
           <Key l="q" guess={guess} setGuess={setGuess} />
           <Key l="w" guess={guess} setGuess={setGuess} />
@@ -111,7 +118,7 @@ function App() {
           <Key l="l" guess={guess} setGuess={setGuess} />
         </Stack>
         <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
-          <Button sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={function () {
+          <Button className="key" sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={function () {
             if (guess.length < 5) {
               alert("too short!")
               return;
@@ -126,9 +133,16 @@ function App() {
               currentRow = 0;
               setGuesses([]);
               setGuess("");
+
+              resetColors();
             }
             else if (currentRow == 5) {
               alert("Nice try! The word was " + target + ".");
+
+              currentRow = 0;
+              setGuesses([]);
+              setGuess("");
+              resetColors();
             } else {
               var tempTarget = [...target];
               var t = []
@@ -137,6 +151,7 @@ function App() {
               for (var i = 0; i < 5; i++) {
                 if (guess[i] == target[i]) {
                   document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
+                  document.getElementById(guess[i]).style.backgroundColor = "#6aaa64";
                   //tempTarget.splice(i, 1)
                   t.push(i)
                 }
@@ -155,6 +170,7 @@ function App() {
                   for (var j = 0; j < 5; j++) {
                     if (target[j] == guess[i]) {
                       document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
+                      document.getElementById(guess[i]).style.backgroundColor = "#c9b458";
                       //break;
                       y = true;
                     }
@@ -162,6 +178,7 @@ function App() {
                 }
                 if (document.getElementById(i + String(currentRow)).style.backgroundColor == "") {
                   document.getElementById(i + String(currentRow)).style.backgroundColor = "#787c7e";
+                  document.getElementById(guess[i]).style.backgroundColor = "#787c7e";
                 }
                 document.getElementById(i + String(currentRow)).style.color = "white";
               }
@@ -179,7 +196,7 @@ function App() {
           <Key l="b" guess={guess} setGuess={setGuess} />
           <Key l="n" guess={guess} setGuess={setGuess} />
           <Key l="m" guess={guess} setGuess={setGuess} />
-          <Button sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={function () { ({ guess }.guess.length >= 0 && setGuess({ guess }.guess.substring(0, { guess }.guess.length - 1))) }}>Bksp</Button>
+          <Button className="key" sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={function () { ({ guess }.guess.length >= 0 && setGuess({ guess }.guess.substring(0, { guess }.guess.length - 1))) }}>Bksp</Button>
         </Stack>
       </Stack>
     </Stack >
