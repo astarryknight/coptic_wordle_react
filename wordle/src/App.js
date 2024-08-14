@@ -2,10 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import Stack from '@mui/joy/Stack';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Typography from '@mui/joy/Typography';
+import Input from '@mui/joy/Input';
+import ReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 var target = "happy"
 var currentRow = 0;
@@ -21,6 +24,18 @@ function getRandomInt(min, max) {
 target = words[getRandomInt(0, words.length)];
 console.log(target)
 
+//keyboard stuff!
+const keyboardEventListener = (e) => {
+  if (e.key === "Enter") { alert("entered!") }
+  if (e.key === 'Backspace') { /*guess.length >= 0 && setGuess(guess.substring(0, guess.length - 1))*/console.log('') }
+  if (alphabet.includes(e.key)) {
+    //addLetter(e.key, guess, setGuess)
+  } else {
+    return;
+  }
+}
+
+document.body.addEventListener('keydown', keyboardEventListener);
 
 function Row({ rowNum, guess, guesses }) {
   var n = parseInt(rowNum)
@@ -58,9 +73,36 @@ function Row({ rowNum, guess, guesses }) {
 }
 
 function Key({ l, guess, setGuess }) {
+
+  // //keyboard stuff!
+  // const keyboardEventListener = (e) => {
+  //   //if (e.key === "Enter") { alert("entered!") }
+  //   if (e.key === 'Backspace') { guess.length >= 0 && setGuess(guess.substring(0, guess.length - 1)) }
+  //   if (alphabet.includes(e.key)) {
+  //     addLetter(e.key, guess, setGuess)
+  //   } else {
+  //     return;
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   document.body.addEventListener('keydown', keyboardEventListener);
+  //   return () => {
+  //     document.body.removeEventListener('keydown', keyboardEventListener);
+  //   }
+  // }, [])
+  //https://stackoverflow.com/questions/66395683/keydown-event-listener-causes-lagging-hanging-dom-thrashing-in-reactjs
+
   return (
-    <Button className="key" id={l} sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={() => { ({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l)) }}>{l.toUpperCase()}</Button>
+    <Button className="key" id={l} sx={{ backgroundColor: "#d3d6da", color: "black", fontWeight: "bold" }} onClick={() => { addLetter(l, guess, setGuess) }}>{l.toUpperCase()}</Button>
   )
+}
+//({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l))
+
+function addLetter(l, guess, setGuess) {
+  console.warn(guess)
+  setGuess(guess + l)
+  guess.length <= 4 && setGuess(guess + l)
 }
 
 function resetColors() {
@@ -76,6 +118,7 @@ function resetColors() {
 
 }
 
+const alphabet = [...'abcdefghijklmnopqrstuvwxyz'];
 
 function App() {
 
@@ -93,6 +136,79 @@ function App() {
         <Row rowNum="4" guess={guess} guesses={guesses} />
         <Row rowNum="5" guess={guess} guesses={guesses} />
       </Stack>
+      <Input id="input" placeholder={guess} size="md" endDecorator={<Button onClick={() => {
+        var gues = document.getElementById("input").value;
+        // alert(guess)
+        if (gues.length < 5) {
+          alert("too short!")
+          return;
+        }
+        else if (!words.includes(gues)) {
+          alert("not a real word!")
+          return;
+        }
+        else if (gues == target) {
+          alert("You win!");
+
+          currentRow = 0;
+          setGuesses([]);
+          setGuess("");
+
+          resetColors();
+        }
+        else if (currentRow == 5) {
+          alert("Nice try! The word was " + target + ".");
+
+          currentRow = 0;
+          setGuesses([]);
+          setGuess("");
+          resetColors();
+        } else {
+          var tempTarget = [...target];
+          var t = []
+          //iterating through each letter of the guess
+
+          for (var i = 0; i < 5; i++) {
+            if (gues[i] == target[i]) {
+              document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
+              document.getElementById(gues[i]).style.backgroundColor = "#6aaa64";
+              //tempTarget.splice(i, 1)
+              t.push(i)
+            }
+          }
+
+          //probably use filter here instead...
+
+          for (var i = 0; i < t.length; i++) {
+            tempTarget.splice(t[i] - i, 1);
+          }
+          console.log(tempTarget)
+
+          for (var i = 0; i < 5; i++) {
+            if (tempTarget.includes(gues[i])) {
+              var y = false;
+              for (var j = 0; j < 5; j++) {
+                if (target[j] == guess[i]) {
+                  document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
+                  document.getElementById(gues[i]).style.backgroundColor = "#c9b458";
+                  //break;
+                  y = true;
+                }
+              }
+            }
+            if (document.getElementById(i + String(currentRow)).style.backgroundColor == "") {
+              document.getElementById(i + String(currentRow)).style.backgroundColor = "#787c7e";
+              document.getElementById(gues[i]).style.backgroundColor = "#787c7e";
+            }
+            document.getElementById(i + String(currentRow)).style.color = "white";
+          }
+
+          currentRow++;
+          var temp = [...guesses, gues];
+          setGuesses(temp);
+          setGuess("")
+        }
+      }} sx={{ height: '80%', width: '3em' }}><ReturnIcon /></Button>}></Input>
       <Stack direction="column" alignItems="center" spacing={.7} id="keyboard">
         <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
           <Key l="q" guess={guess} setGuess={setGuess} />
