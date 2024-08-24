@@ -131,6 +131,7 @@ const theme = extendTheme({
       palette: {
         background: {
           body: '#121213',
+          backdrop: '#121213'
         },
         neutral: {
           50: '#818384',
@@ -144,6 +145,9 @@ const theme = extendTheme({
     },
     light: {
       palette: {
+        background: {
+          backdrop: '#fff',
+        },
         neutral: {
           50: '#d3d6da',
           100: '#d3d6da',
@@ -174,8 +178,11 @@ function App() {
         alignItems: "center", backgroundColor: 'background.body'
       }}>
         <Modal open={leaderboard} onClose={() => setLeaderboard(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'background.body' }}>
-          <Typography>wekll hi there</Typography>
-          <ModalClose />
+          <Sheet>
+            <ModalClose />
+            <Typography>wekll hi there</Typography>
+          </Sheet>
+
         </Modal>
         <Modal open={howToPlay} onClose={() => setHowToPlay(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}></Modal>
         <Modal open={settings} onClose={() => setSettings(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}></Modal>
