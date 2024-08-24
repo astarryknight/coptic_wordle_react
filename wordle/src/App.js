@@ -180,7 +180,11 @@ function App() {
         <Modal open={leaderboard} onClose={() => setLeaderboard(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'background.body' }}>
           <Sheet>
             <ModalClose />
-            <Typography>wekll hi there</Typography>
+            <Sheet sx={{ display: "flex" }}>
+              <Typography level="h2" sx={{ color: "primary.50" }}>Wordle</Typography>
+              <Typography level="h4" sx={{ color: "primary.50" }}>Statistics</Typography>
+              <Typography level="h3" sx={{ color: "primary.50" }}>Wordle</Typography>
+            </Sheet>
           </Sheet>
 
         </Modal>
