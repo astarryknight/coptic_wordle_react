@@ -19,3 +19,17 @@ body,
 #root {
   height: 100%;
 }
+
+/* @media only screen and (max-width: 768px) {
+} */
+
+.key {
+  width: 7vw;
+  max-width: 43px;
+}
+
+#enter,
+#backspace {
+  width: 12vw;
+  max-width: 65px;
+}
