@@ -26,8 +26,9 @@ body,
 }
 
 .key {
-  width: 7vw;
+  width: 8.2vw;
   max-width: 43px;
+  padding: 0 !important;
 }
 
 #enter,
@@ -38,7 +39,7 @@ body,
 
 #toolbar {
   height: 56px;
-  border-bottom: 1px solid #d3d6da;
+  border-bottom: 1px solid var(--joy-palette-neutral-100);
   width: 100%;
 }
 

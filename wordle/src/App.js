@@ -126,6 +126,13 @@ function ThemeToggle() {
 }
 
 const theme = extendTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: { minWidth: 0 }
+      }
+    }
+  },
   colorSchemes: {
     dark: {
       palette: {
