@@ -37,12 +37,14 @@ body,
   width: 8.2vw;
   max-width: 43px;
   padding: 0 !important;
+  font-family: 'Coptic' !important;
 }
 
 #enter,
 #backspace {
   width: 12vw;
   max-width: 65px;
+  font-family: var(--joy-fontFamily-display, "Inter", var(--joy-fontFamily-fallback, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol")) !important;
 }
 
 #toolbar {
@@ -76,10 +78,32 @@ ul {
 li,
 p {
   color: var(--joy-palette-primary-50) !important;
+  font-family: Coptic;
+}
+
+
+.modal {
+  width: fit-content !important;
+  height: fit-content !important;
+  background-color: white !important;
+  border: 1px solid var(--joy-palette-neutral-100);
+  border-radius: 0.5rem;
+}
+
+@font-face {
+  font-family: 'Coptic';
+  src: url(./Coptic1.otf) format('opentype');
+  unicode-range: U+0000-00FF, U+0370-03FF, U+2C80-2CFF;
 }
 
 @media only screen and (max-width: 768px) {
   #toolbar {
     height: 48px;
+  }
+
+  .modal {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
   }
 }

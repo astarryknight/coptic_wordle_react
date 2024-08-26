@@ -123,7 +123,7 @@ const theme = extendTheme({
       palette: {
         background: {
           body: '#121213',
-          backdrop: '#121213'
+          backdrop: 'transparent'
         },
         neutral: {
           50: '#818384',
@@ -138,7 +138,7 @@ const theme = extendTheme({
     light: {
       palette: {
         background: {
-          backdrop: '#fff',
+          backdrop: 'transparent',
         },
         neutral: {
           50: '#d3d6da',
@@ -179,7 +179,7 @@ function App() {
         display: "flex", height: "100dvh", justifyContent: "space-between",
         alignItems: "center", backgroundColor: 'background.body'
       }}>
-        <Modal open={leaderboard} onClose={() => setLeaderboard(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'background.body', width: "100%", height: "100%" }}>
+        <Modal className="modal" open={leaderboard} onClose={() => setLeaderboard(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'background.body' }}>
           <Sheet sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
             <ModalClose />
             <Sheet sx={{ display: "flex", alignItems: "center" }}>
@@ -209,7 +209,7 @@ function App() {
           </Sheet>
         </Modal>
         <Modal open={howToPlay} onClose={() => setHowToPlay(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Sheet sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Sheet className="modal" sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <ModalClose />
             <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
               <Typography level="h3" sx={{ color: "primary.50", marginTop: "2rem", fontWeight: "bold" }}>How To Play</Typography>
@@ -279,27 +279,27 @@ function App() {
         </Stack>
         <Stack direction="column" alignItems="center" spacing={.7} id="keyboard">
           <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
-            <Key l="q" guess={guess} setGuess={setGuess} />
-            <Key l="w" guess={guess} setGuess={setGuess} />
-            <Key l="e" guess={guess} setGuess={setGuess} />
-            <Key l="r" guess={guess} setGuess={setGuess} />
-            <Key l="t" guess={guess} setGuess={setGuess} />
-            <Key l="y" guess={guess} setGuess={setGuess} />
-            <Key l="u" guess={guess} setGuess={setGuess} />
-            <Key l="i" guess={guess} setGuess={setGuess} />
-            <Key l="o" guess={guess} setGuess={setGuess} />
-            <Key l="p" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲑ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲱ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲉ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲣ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲧ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲯ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲩ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲓ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲟ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲡ" guess={guess} setGuess={setGuess} />
           </Stack>
           <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
-            <Key l="a" guess={guess} setGuess={setGuess} />
-            <Key l="s" guess={guess} setGuess={setGuess} />
-            <Key l="d" guess={guess} setGuess={setGuess} />
-            <Key l="f" guess={guess} setGuess={setGuess} />
-            <Key l="g" guess={guess} setGuess={setGuess} />
-            <Key l="h" guess={guess} setGuess={setGuess} />
-            <Key l="j" guess={guess} setGuess={setGuess} />
-            <Key l="k" guess={guess} setGuess={setGuess} />
-            <Key l="l" guess={guess} setGuess={setGuess} />
+            <Key l="Ϥ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲁ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲥ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲇ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲫ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲅ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲏ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϫ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲕ" guess={guess} setGuess={setGuess} />
           </Stack>
           <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
             <Button id="enter" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () {
@@ -361,13 +361,13 @@ function App() {
                 setLeaderboard(true);
               }
             }}>Enter</Button>
-            <Key l="z" guess={guess} setGuess={setGuess} />
-            <Key l="x" guess={guess} setGuess={setGuess} />
-            <Key l="c" guess={guess} setGuess={setGuess} />
-            <Key l="v" guess={guess} setGuess={setGuess} />
-            <Key l="b" guess={guess} setGuess={setGuess} />
-            <Key l="n" guess={guess} setGuess={setGuess} />
-            <Key l="m" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲗ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϩ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϭ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲍ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲝ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲭ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϣ" guess={guess} setGuess={setGuess} />
             <Button id="backspace" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () { ({ guess }.guess.length >= 0 && setGuess({ guess }.guess.substring(0, { guess }.guess.length - 1))) }}>Bksp</Button>
           </Stack>
         </Stack>
