@@ -173,17 +173,36 @@ function App() {
 
   return (
     <CssVarsProvider theme={theme}>
-      <Sheet sx={{
+      <Sheet id="canvas" sx={{
         display: "flex", height: "100dvh", justifyContent: "space-between",
         alignItems: "center", backgroundColor: 'background.body'
       }}>
-        <Modal open={leaderboard} onClose={() => setLeaderboard(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'background.body' }}>
-          <Sheet>
+        <Modal open={leaderboard} onClose={() => setLeaderboard(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'background.body', width: "100%", height: "100%" }}>
+          <Sheet sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
             <ModalClose />
-            <Sheet sx={{ display: "flex" }}>
-              <Typography level="h2" sx={{ color: "primary.50" }}>Wordle</Typography>
-              <Typography level="h4" sx={{ color: "primary.50" }}>Statistics</Typography>
-              <Typography level="h3" sx={{ color: "primary.50" }}>Wordle</Typography>
+            <Sheet sx={{ display: "flex", alignItems: "center" }}>
+              <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}>Wordle #123</Typography>
+            </Sheet>
+            <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%" }}>
+              <Typography level="h4" sx={{ color: "primary.50", marginTop: "1em" }}>Statistics</Typography>
+              <Sheet sx={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", width: "100%" }}>
+                <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <Typography level="h2" className="lbText">55</Typography>
+                  <Typography level="body-sm" className="lbText">played</Typography>
+                </Sheet>
+                <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <Typography level="h2" className="lbText">55</Typography>
+                  <Typography level="body-sm" className="lbText">win %</Typography>
+                </Sheet>
+                <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <Typography level="h2" className="lbText">23</Typography>
+                  <Typography level="body-sm" className="lbText">current</Typography>
+                </Sheet>
+                <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  <Typography level="h2" className="lbText">60</Typography>
+                  <Typography level="body-sm" className="lbText">max streak</Typography>
+                </Sheet>
+              </Sheet>
             </Sheet>
           </Sheet>
 
@@ -318,7 +337,7 @@ function App() {
           </Stack>
         </Stack>
       </Sheet >
-    </CssVarsProvider>
+    </CssVarsProvider >
   );
 }
 
