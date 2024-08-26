@@ -13,6 +13,9 @@ import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
+import List from '@mui/joy/List';
+import ListItem from '@mui/joy/ListItem';
+import Alert from '@mui/material/Alert';
 
 //icons
 import Moon from '@mui/icons-material/DarkMode';
@@ -98,24 +101,13 @@ function addLetter(l, guess, setGuess) {
   guess.length <= 4 && setGuess(guess + l)
 }
 
-function resetColors() {
-  var l = document.getElementsByClassName("box");
-  for (var i = 0; i < l.length; i++) {
-    l[i].style.backgroundColor = "white"
-  }
-
-  var l = document.getElementsByClassName("key");
-  for (var i = 0; i < l.length; i++) {
-    l[i].style.backgroundColor = "#d3d6da"
-  }
-
-}
-
 function ThemeToggle() {
   const { mode, setMode } = useColorScheme();
+  mode === 'light' ? metaTag.setAttribute("content", "#121213") : metaTag.setAttribute("content", "#fff"); //maybe this'll work?
   return (
     <IconButton
       onClick={() => {
+        mode === 'light' ? metaTag.setAttribute("content", "#121213") : metaTag.setAttribute("content", "#fff");
         setMode(mode === 'light' ? 'dark' : 'light');
       }}
       sx={{ backgroundColor: 'background.body' }}
@@ -126,13 +118,6 @@ function ThemeToggle() {
 }
 
 const theme = extendTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: { minWidth: 0 }
-      }
-    }
-  },
   colorSchemes: {
     dark: {
       palette: {
@@ -168,10 +153,19 @@ const theme = extendTheme({
   },
 });
 
+//color palette:
+//green: #6aaa64
+//yellow: #c9b458
+
+const metaTag = document.querySelector('meta[name="theme-color"]');
+
 function App() {
 
   const [guess, setGuess] = React.useState("")
   const [guesses, setGuesses] = React.useState([]);
+
+  // the alert is displayed by default
+  const [alert, setAlert] = useState(true);
 
   //modal states
   const [leaderboard, setLeaderboard] = React.useState(false);
@@ -180,6 +174,7 @@ function App() {
 
   return (
     <CssVarsProvider theme={theme}>
+      <meta name="theme-color" content="var(--joy-palette-background-body)"></meta>
       <Sheet id="canvas" sx={{
         display: "flex", height: "100dvh", justifyContent: "space-between",
         alignItems: "center", backgroundColor: 'background.body'
@@ -190,7 +185,7 @@ function App() {
             <Sheet sx={{ display: "flex", alignItems: "center" }}>
               <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}>Wordle #123</Typography>
             </Sheet>
-            <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%" }}>
+            <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
               <Typography level="h4" sx={{ color: "primary.50", marginTop: "1em" }}>Statistics</Typography>
               <Sheet sx={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", width: "100%" }}>
                 <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -212,15 +207,64 @@ function App() {
               </Sheet>
             </Sheet>
           </Sheet>
-
         </Modal>
-        <Modal open={howToPlay} onClose={() => setHowToPlay(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}></Modal>
-        <Modal open={settings} onClose={() => setSettings(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}></Modal>
+        <Modal open={howToPlay} onClose={() => setHowToPlay(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Sheet sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <ModalClose />
+            <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
+              <Typography level="h3" sx={{ color: "primary.50", marginTop: "2rem", fontWeight: "bold" }}>How To Play</Typography>
+              <Typography level="body-lg" sx={{ color: "primary.50" }}>Guess the Coptic word in 6 tries.</Typography>
+              <List sx={{ listStyleType: 'disc' }}>
+                <ListItem sx={{ display: 'list-item' }}>Each guess must contain exactly 5 Coptic letters.</ListItem>
+                <ListItem sx={{ display: 'list-item' }}>Guesses can be <span style={{ textDecorationLine: "spelling-error" }}>invalid</span> words.</ListItem>
+                <ListItem sx={{ display: 'list-item' }}>The box colors will tell you information about your guesses.</ListItem>
+              </List>
+              <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "100%" }}>
+                <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1em", fontWeight: "bold" }}>Examples</Typography>
+                <Sheet sx={{ display: "flex", flexDirection: "column" }}>
+                  <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
+                    <Box className="box htp" sx={{ backgroundColor: "#6aaa64" }}>a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                  </Sheet>
+                  <Typography><span style={{ fontWeight: "bold" }}>A</span> is in the word and in the right spot.</Typography>
+                </Sheet>
+                <Sheet sx={{ display: "flex", flexDirection: "column", marginTop: ".5rem" }}>
+                  <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" sx={{ backgroundColor: "#c9b458" }}>a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                  </Sheet>
+                  <Typography><span style={{ fontWeight: "bold" }}>A</span> is in the word but in the wrong spot.</Typography>
+                </Sheet>
+                <Sheet sx={{ display: "flex", flexDirection: "column", marginTop: ".5rem" }}>
+                  <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" sx={{ backgroundColor: "var(--joy-palette-neutral-150)" }}>a</Box>
+                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >a</Box>
+                  </Sheet>
+                  <Typography><span style={{ fontWeight: "bold" }}>A</span> is not in the word.</Typography>
+                </Sheet>
+              </Sheet>
+              <Typography level="body-md" sx={{ color: "primary.50", marginTop: "2rem" }}>A new word is released every day.</Typography>
+            </Sheet>
+            <Sheet sx={{ width: "100%", borderTop: "1px solid", borderColor: "var(--joy-palette-neutral-100)", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+              <Typography level="body-sm" sx={{ marginLeft: ".25rem" }}>© 2024 The Coptic Language Initiative</Typography>
+              <Typography level="body-sm" sx={{ marginRight: ".25rem" }}>#1</Typography>
+            </Sheet>
+          </Sheet>
+        </Modal>
         <Stack direction="row" id="toolbar">
           <Sheet id="toolbar-buttons">
             {/*<IconButton><LightbulbIcon /></IconButton>*/}
             <IconButton onClick={() => setLeaderboard(true)}><LeaderBoardIcon /></IconButton>
-            <IconButton><HowToPlayIcon /></IconButton>
+            <IconButton onClick={() => setHowToPlay(true)}><HowToPlayIcon /></IconButton>
             {/* <IconButton><SettingsIcon /></IconButton> */}
             <ThemeToggle />
           </Sheet>
@@ -260,29 +304,10 @@ function App() {
           <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
             <Button id="enter" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () {
               if (guess.length < 5) {
-                alert("too short!")
-                return;
-              }
-              // else if (!words.includes(guess)) {
-              //   alert("not a real word!")
-              //   return;
-              // } check if its a real word or not
-              else if (guess == target) {
-                alert("You win!");
-
-                currentRow = 0;
-                setGuesses([]);
-                setGuess("");
-
-                resetColors();
-              }
-              else if (currentRow == 5) {
-                alert("Nice try! The word was " + target + ".");
-
-                currentRow = 0;
-                setGuesses([]);
-                setGuess("");
-                resetColors();
+                for (i = 0; i < 5; i++) {
+                  document.getElementById(i + String(currentRow)).style.borderColor = "#fa3939";
+                  console.log(document.getElementById(i + String(currentRow)))
+                }
               } else {
                 var tempTarget = [...target];
                 var t = []
@@ -331,6 +356,9 @@ function App() {
                 var temp = [...guesses, guess];
                 setGuesses(temp);
                 setGuess("")
+              }
+              if (guess == target || currentRow == 5) {
+                setLeaderboard(true);
               }
             }}>Enter</Button>
             <Key l="z" guess={guess} setGuess={setGuess} />

@@ -12,6 +12,14 @@
   color: var(--joy-palette-primary-50);
 }
 
+.htp {
+  height: 2rem;
+  width: 2rem;
+  line-height: 1rem;
+  font-size: 25px;
+  margin-right: .25rem;
+}
+
 .key:hover,
 .key:focus,
 .key:active {
@@ -56,6 +64,17 @@ body,
 }
 
 .lbText {
+  color: var(--joy-palette-primary-50) !important;
+}
+
+/*makes sure list items stay inside of their parent div*/
+ul {
+  list-style-position: inside !important;
+}
+
+/*styling for how to play text*/
+li,
+p {
   color: var(--joy-palette-primary-50) !important;
 }
 
