@@ -150,8 +150,25 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
         setGuesses(temp);
         setGuess("")
       }
-      if (guess == target || currentRow == 6) {
+      if (guess == target) {
         win = true;
+        if (!wordleData.won) {
+          wordleData.won = true;
+          wordleData.wins = wordleData.wins + 1;
+          if (wordleData.lastWon + 1 == getCurrentDay()) { //increase the streak! nice job!
+            wordleData.currentStreak = wordleData.currentStreak + 1;
+            wordleData.currentStreak > wordleData.maxStreak && (wordleData.maxStreak = wordleData.currentStreak);
+          } else if (wordleData.currentStreak == 0) {
+            wordleData.currentStreak = 1;
+            wordleData.maxStreak = wordleData.currentStreak;
+          }
+          wordleData.lastWon = getCurrentDay(); //set the last time you won to today - AFTER WE CHECK YOUR STREAK
+        }
+        saveData();
+        setLeaderboard(true);
+      }
+      if (currentRow == 6) {
+        wordleData.currentStreak = 0;
         setLeaderboard(true);
       }
     }}>Enter</Button>
@@ -189,8 +206,11 @@ function changeKeyColor(color, id) {
 var wordleData = {
   currentStreak: 0,
   maxStreak: 0,
+  lastPlayed: 0,
+  lastWon: 0,
   plays: 0,
   wins: 0,
+  won: false,
   guesses: []
 }
 
@@ -199,10 +219,13 @@ function saveData() {
   localStorage.setItem("data", JSON.stringify(wordleData)); //btoa
 }
 
-//saveData();
-
 function loadData() {
-  localStorage.getItem("data") == null && saveData();
+  if (localStorage.getItem("data") == null) {
+    //base initialization
+    wordleData.plays = 1;
+    wordleData.lastPlayed = getCurrentDay();
+    saveData();
+  }
   wordleData = JSON.parse(localStorage.getItem("data")); //atob
 }
 
@@ -212,39 +235,52 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 var loading = false;
 async function load() {
   loadData();
-  var pastGuesses = wordleData.guesses;
 
-  loading = true;
-  for (var i = 0; i < pastGuesses.length; i++) {
-    for (var j = 0; j < pastGuesses[i].length; j++) {
-      console.log(pastGuesses[i][j]);
-      document.getElementById(pastGuesses[i][j]).click();
+  if (!(wordleData.lastWon == getCurrentDay() || wordleData.lastWon + 1 == getCurrentDay())) {
+    wordleData.currentStreak = 0;
+  }
+
+  if (wordleData.lastPlayed == getCurrentDay()) {
+    //you already played today, huh?
+    //autoloading previous words
+    var pastGuesses = wordleData.guesses;
+    loading = true;
+    for (var i = 0; i < pastGuesses.length; i++) {
+      for (var j = 0; j < pastGuesses[i].length; j++) {
+        document.getElementById(pastGuesses[i][j]).click();
+        await (delay(.001));
+      }
+      document.getElementById("enter").click();
       await (delay(.001));
     }
-    document.getElementById("enter").click();
-    await (delay(.001));
+    loading = false;
+  } else if (wordleData.lastPlayed + 1 == getCurrentDay()) {
+    //its tomorrow!
+    //get a new word!
+    wordleData.lastPlayed = getCurrentDay();
+    wordleData.guesses = [];
+    wordleData.plays = wordleData.plays + 1;
+    wordleData.won = false;
+    saveData();
+  } else {
+    //you haven't played in a while :(
+    wordleData.lastPlayed = getCurrentDay();
+    wordleData.guesses = [];
+    wordleData.plays = wordleData.plays + 1;
+    wordleData.won = false;
+    saveData();
   }
-  loading = false;
+
+  console.log(getCurrentDay())
 }
 
 window.onload = load;
 
-// const mouseClickEvents = ['mousedown'];
-// function simulateMouseClick(element) {
-//   mouseClickEvents.forEach(mouseEventType =>
-//     element.dispatchEvent(
-//       new MouseEvent(mouseEventType, {
-//         view: window,
-//         bubbles: true,
-//         cancelable: true,
-//         buttons: 1
-//       })
-//     )
-//   );
-// }
-
-// var element = document.querySelector('enter');
-// simulateMouseClick(element);
+function getCurrentDay() {
+  var d = Date.now();
+  var day =  /*24 * 60 * */60 * 1000;
+  return Math.floor(d / day) - 28746316;
+}
 
 const theme = extendTheme({
   colorSchemes: {
@@ -315,22 +351,22 @@ function App() {
               <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}><span style={{ fontFamily: "Coptic" }}>Ⲟⲩⲣⲇⲉⲗ</span> #1</Typography>
             </Sheet>
             <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
-              <Typography level="h4" sx={{ color: "primary.50", marginTop: "1em" }}>Statistics</Typography>
+              <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1em", fontWeight: "bold" }}>Statistics:</Typography>
               <Sheet sx={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", width: "100%" }}>
                 <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <Typography level="h2" className="lbText">55</Typography>
+                  <Typography level="h2" className="lbText">{wordleData.plays}</Typography>
                   <Typography level="body-sm" className="lbText">played</Typography>
                 </Sheet>
                 <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <Typography level="h2" className="lbText">55</Typography>
+                  <Typography level="h2" className="lbText">{Math.floor((wordleData.wins / wordleData.plays) * 100)}</Typography>
                   <Typography level="body-sm" className="lbText">win %</Typography>
                 </Sheet>
                 <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <Typography level="h2" className="lbText">23</Typography>
-                  <Typography level="body-sm" className="lbText">current</Typography>
+                  <Typography level="h2" className="lbText">{wordleData.currentStreak}</Typography>
+                  <Typography level="body-sm" className="lbText" sx={{ display: "ruby" }}>current streak</Typography>
                 </Sheet>
                 <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <Typography level="h2" className="lbText">60</Typography>
+                  <Typography level="h2" className="lbText">{wordleData.maxStreak}</Typography>
                   <Typography level="body-sm" className="lbText">max streak</Typography>
                 </Sheet>
               </Sheet>
