@@ -33,7 +33,7 @@ import { extendTheme } from '@mui/joy/styles';
 
 
 //main js
-var target = "ⲢⲞⲘⲠⲒ"
+var target = "ϢⲞⲨⲢⲎ"
 var currentRow = 0;
 
 function getRandomInt(min, max) {
@@ -165,10 +165,14 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
           wordleData.lastWon = getCurrentDay(); //set the last time you won to today - AFTER WE CHECK YOUR STREAK
         }
         saveData();
+        word = target;
+        pronunciation = "shouree"
         setLeaderboard(true);
       }
       if (currentRow == 6) {
         wordleData.currentStreak = 0;
+        word = target;
+        pronunciation = "shouree"
         setLeaderboard(true);
       }
     }}>Enter</Button>
@@ -325,13 +329,14 @@ const theme = extendTheme({
 const metaTag = document.querySelector('meta[name="theme-color"]');
 var win = false;
 
+var word = "?????";
+var definition = "Censer";
+var pronunciation = "?????";
+
 function App() {
 
   const [guess, setGuess] = React.useState("")
   const [guesses, setGuesses] = React.useState([]);
-
-  // the alert is displayed by default
-  const [alert, setAlert] = useState(true);
 
   //modal states
   const [leaderboard, setLeaderboard] = React.useState(false);
@@ -348,7 +353,7 @@ function App() {
           <Sheet sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
             <ModalClose />
             <Sheet sx={{ display: "flex", alignItems: "center" }}>
-              <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}><span style={{ fontFamily: "Coptic" }}>Ⲟⲩⲣⲇⲉⲗ</span> #1</Typography>
+              <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}><span style={{ fontFamily: "Coptic" }}>Ⲟⲩⲣⲇⲉⲗ</span> #{getCurrentDay()}</Typography>
             </Sheet>
             <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
               <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1em", fontWeight: "bold" }}>Statistics:</Typography>
@@ -370,6 +375,12 @@ function App() {
                   <Typography level="body-sm" className="lbText">max streak</Typography>
                 </Sheet>
               </Sheet>
+              <Typography level="body-md" sx={{ color: "primary.50", marginTop: "2em", fontWeight: "bold" }}>Today's word is:</Typography>
+              <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+                <Typography level="h1" sx={{ color: "primary.50", marginTop: ".25em", fontWeight: "bold", fontFamily: "Coptic" }}>{word}</Typography>
+              </Sheet>
+              <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1rem", fontWeight: "bold" }}>Definition: <span style={{ fontWeight: "normal" }}>{definition}</span></Typography>
+              <Typography level="body-md" sx={{ color: "primary.50", fontWeight: "bold" }}>Pronunciation: <span style={{ fontWeight: "normal" }}>"{pronunciation}"</span></Typography>
             </Sheet>
           </Sheet>
         </Modal>
@@ -385,7 +396,7 @@ function App() {
                 <ListItem sx={{ display: 'list-item' }}>The box colors will tell you information about your guesses.</ListItem>
               </List>
               <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "100%" }}>
-                <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1em", fontWeight: "bold" }}>Examples</Typography>
+                <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1em", fontWeight: "bold" }}>Examples:</Typography>
                 <Sheet sx={{ display: "flex", flexDirection: "column" }}>
                   <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
                     <Box className="box htp" sx={{ backgroundColor: "#6aaa64" }}>ⲛ</Box>
@@ -421,7 +432,7 @@ function App() {
             </Sheet>
             <Sheet sx={{ width: "100%", borderTop: "1px solid", borderColor: "var(--joy-palette-neutral-100)", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
               <Typography level="body-sm" sx={{ marginLeft: ".25rem" }}>© 2024 The Coptic Language Initiative</Typography>
-              <Typography level="body-sm" sx={{ marginRight: ".25rem" }}>#1</Typography>
+              <Typography level="body-sm" sx={{ marginRight: ".25rem" }}>#{getCurrentDay()}</Typography>
             </Sheet>
           </Sheet>
         </Modal>
