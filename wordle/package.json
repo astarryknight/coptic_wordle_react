@@ -1,7 +1,7 @@
 {
   "name": "wordle",
   "version": "0.1.0",
-  "homepage": "https://astarryknight.github.io/wordle_react/",
+  "homepage": "https://astarryknight.github.io/coptic_wordle_react/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.0",

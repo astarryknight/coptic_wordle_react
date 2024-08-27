@@ -20,21 +20,21 @@ import Alert from '@mui/material/Alert';
 //icons
 import Moon from '@mui/icons-material/DarkMode';
 import Sun from '@mui/icons-material/LightMode';
-import ReturnIcon from '@mui/icons-material/KeyboardReturn';
-import SettingsIcon from '@mui/icons-material/Settings';
 import HowToPlayIcon from '@mui/icons-material/HelpOutline';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import LeaderBoardIcon from '@mui/icons-material/Leaderboard';
+import ShareIcon from "@mui/icons-material/Share";
 
 //Theme toggle support
 import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
 
 import { extendTheme } from '@mui/joy/styles';
+import Share from '@mui/icons-material/Share';
 
 
 //main js
 var target = "ϢⲞⲨⲢⲎ"
 var currentRow = 0;
+var board = []//🟩🟨⬛
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -94,6 +94,7 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
           console.log(document.getElementById(i + String(currentRow)))
         }
       } else if (!win) {
+        var boardRow = ["⬛", "⬛", "⬛", "⬛", "⬛"]
         if (!loading) {
           wordleData.guesses = [...wordleData.guesses, guess]
           saveData();
@@ -107,6 +108,7 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
             document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
             document.getElementById(i + String(currentRow)).style.borderColor = "#6aaa64";
             document.getElementById(guess[i]).style.backgroundColor = "#6aaa64";
+            boardRow[i] = "🟩"
             //tempTarget.splice(i, 1)
             t.push(i)
           }
@@ -130,6 +132,7 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
                 //document.getElementById(guess[i]).style.backgroundColor != "rgb(106, 170, 100)" && (document.getElementById(guess[i]).style.backgroundColor = "#c9b458");
                 changeKeyColor("#c9b458", guess[i]);
                 tempTarget.splice(j, 1);// check this out
+                boardRow[i] = "🟨"
                 //break;
                 y = true;
               }
@@ -145,6 +148,7 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
           document.getElementById(i + String(currentRow)).style.color = "white";
         }
 
+        board[currentRow] = boardRow;
         currentRow++;
         var temp = [...guesses, guess];
         setGuesses(temp);
@@ -282,8 +286,8 @@ window.onload = load;
 
 function getCurrentDay() {
   var d = Date.now();
-  var day =  /*24 * 60 * */60 * 1000;
-  return Math.floor(d / day) - 28746316;
+  var day = 24 * 60 * 60 * 1000;
+  return Math.floor(d / day) - 19961; //have to tune this later
 }
 
 const theme = extendTheme({
@@ -381,6 +385,25 @@ function App() {
               </Sheet>
               <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1rem", fontWeight: "bold" }}>Definition: <span style={{ fontWeight: "normal" }}>{definition}</span></Typography>
               <Typography level="body-md" sx={{ color: "primary.50", fontWeight: "bold" }}>Pronunciation: <span style={{ fontWeight: "normal" }}>"{pronunciation}"</span></Typography>
+              <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", marginTop: "2rem" }}>
+                <Button variant="solid" disabled={wordleData.won ? false : true} startDecorator={<Share />} onClick={() => {
+                  var title = 'Coptic Wordle #' + (getCurrentDay()) + ' - ' + (currentRow + '/6');
+                  var text = title + '\n';
+                  for (var i = 0; i < board.length; i++) {
+                    for (var j = 0; j < 5; j++) {
+                      text += board[i][j]
+                    }
+                    text += "\n"
+                  }
+                  navigator.share({
+                    title: title,
+                    text: board
+                  })
+                  alert(title);
+                  alert(text);
+                  // url: '',
+                }}>Share</Button>
+              </Sheet>
             </Sheet>
           </Sheet>
         </Modal>
