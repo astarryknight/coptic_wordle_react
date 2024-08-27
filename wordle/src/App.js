@@ -223,33 +223,33 @@ function App() {
                 <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1em", fontWeight: "bold" }}>Examples</Typography>
                 <Sheet sx={{ display: "flex", flexDirection: "column" }}>
                   <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
-                    <Box className="box htp" sx={{ backgroundColor: "#6aaa64" }}>a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" sx={{ backgroundColor: "#6aaa64" }}>ⲛ</Box>
+                    <Box className="box htp" >ⲟ</Box>
+                    <Box className="box htp" >ϥ</Box>
+                    <Box className="box htp" >ⲣ</Box>
+                    <Box className="box htp" >ⲓ</Box>
                   </Sheet>
-                  <Typography><span style={{ fontWeight: "bold" }}>A</span> is in the word and in the right spot.</Typography>
+                  <Typography><span style={{ fontWeight: "bold", fontFamily: "Coptic" }}>Ⲛ</span> is in the word and in the right spot.</Typography>
                 </Sheet>
                 <Sheet sx={{ display: "flex", flexDirection: "column", marginTop: ".5rem" }}>
                   <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" sx={{ backgroundColor: "#c9b458" }}>a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >ⲉ</Box>
+                    <Box className="box htp" sx={{ backgroundColor: "#c9b458" }}>ϩ</Box>
+                    <Box className="box htp" >ⲟ</Box>
+                    <Box className="box htp" >ⲟ</Box>
+                    <Box className="box htp" >ⲩ</Box>
                   </Sheet>
-                  <Typography><span style={{ fontWeight: "bold" }}>A</span> is in the word but in the wrong spot.</Typography>
+                  <Typography><span style={{ fontWeight: "bold", fontFamily: "Coptic" }}>Ϩ</span> is in the word but in the wrong spot.</Typography>
                 </Sheet>
                 <Sheet sx={{ display: "flex", flexDirection: "column", marginTop: ".5rem" }}>
                   <Sheet sx={{ display: "flex", flexDirection: "row", marginTop: ".5rem" }}>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" sx={{ backgroundColor: "var(--joy-palette-neutral-150)" }}>a</Box>
-                    <Box className="box htp" >a</Box>
-                    <Box className="box htp" >a</Box>
+                    <Box className="box htp" >ⲡ</Box>
+                    <Box className="box htp" >ⲟ</Box>
+                    <Box className="box htp" sx={{ backgroundColor: "var(--joy-palette-neutral-150)" }}>ⲩ</Box>
+                    <Box className="box htp" >ⲣ</Box>
+                    <Box className="box htp" >ⲟ</Box>
                   </Sheet>
-                  <Typography><span style={{ fontWeight: "bold" }}>A</span> is not in the word.</Typography>
+                  <Typography><span style={{ fontWeight: "bold", fontFamily: "Coptic" }}>Ⲩ</span> is not in the word.</Typography>
                 </Sheet>
               </Sheet>
               <Typography level="body-md" sx={{ color: "primary.50", marginTop: "2rem" }}>A new word is released every day.</Typography>
