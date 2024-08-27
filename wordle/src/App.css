@@ -40,6 +40,7 @@ body,
   padding: 0 !important;
   font-family: 'Coptic' !important;
   height: 2.5rem;
+  color: var(--joy-palette-primary-50) !important;
 }
 
 #enter,

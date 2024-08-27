@@ -92,7 +92,7 @@ function Row({ rowNum, guess, guesses }) {
 
 function Key({ l, guess, setGuess }) {
   return (
-    <Button className="key" id={l} sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={() => { addLetter(l, guess, setGuess) }}>{l.toUpperCase()}</Button>
+    <Button className="key" id={l} sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={() => { !win && addLetter(l, guess, setGuess) }}>{l.toUpperCase()}</Button>
   )
 }
 //({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l))
@@ -103,11 +103,10 @@ function addLetter(l, guess, setGuess) {
 
 function ThemeToggle() {
   const { mode, setMode } = useColorScheme();
-  mode === 'light' ? metaTag.setAttribute("content", "#121213") : metaTag.setAttribute("content", "#fff"); //maybe this'll work?
+  mode === 'light' ? metaTag.setAttribute("content", "#fff") : metaTag.setAttribute("content", "#121213"); //maybe this'll work?
   return (
     <IconButton
       onClick={() => {
-        mode === 'light' ? metaTag.setAttribute("content", "#121213") : metaTag.setAttribute("content", "#fff");
         setMode(mode === 'light' ? 'dark' : 'light');
       }}
       sx={{ backgroundColor: 'background.body' }}
@@ -115,6 +114,24 @@ function ThemeToggle() {
       {mode === 'light' ? <Sun /> : <Moon />}
     </IconButton>
   );
+}
+
+function changeKeyColor(color, id) {
+  var el = document.getElementById(id);
+  const g = "rgb(106, 170, 100)";
+  const y = "rgb(201, 180, 88)";
+  if (el.style.backgroundColor != g && el.style.backgroundColor != y) {
+    el.style.backgroundColor = color;
+  }
+}
+
+//save/load funcs
+function saveData() {
+
+}
+
+function loadData() {
+
 }
 
 const theme = extendTheme({
@@ -158,6 +175,7 @@ const theme = extendTheme({
 //yellow: #c9b458
 
 const metaTag = document.querySelector('meta[name="theme-color"]');
+var win = false;
 
 function App() {
 
@@ -170,7 +188,6 @@ function App() {
   //modal states
   const [leaderboard, setLeaderboard] = React.useState(false);
   const [howToPlay, setHowToPlay] = React.useState(false);
-  const [settings, setSettings] = React.useState(false);
 
   return (
     <CssVarsProvider theme={theme}>
@@ -183,7 +200,7 @@ function App() {
           <Sheet sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
             <ModalClose />
             <Sheet sx={{ display: "flex", alignItems: "center" }}>
-              <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}>Wordle #123</Typography>
+              <Typography level="h2" sx={{ color: "primary.50", marginTop: "2em" }}><span style={{ fontFamily: "Coptic" }}>Ⲟⲩⲣⲇⲉⲗ</span> #1</Typography>
             </Sheet>
             <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
               <Typography level="h4" sx={{ color: "primary.50", marginTop: "1em" }}>Statistics</Typography>
@@ -313,12 +330,12 @@ function App() {
           <Stack direction="row" spacing={.7}>
             <Button id="enter" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () {
               // var guess = guess.toLowerCase();
-              if (guess.length < 5) {
+              if (guess.length < 5 && !win) {
                 for (i = 0; i < 5; i++) {
                   document.getElementById(i + String(currentRow)).style.borderColor = "#fa3939";
                   console.log(document.getElementById(i + String(currentRow)))
                 }
-              } else {
+              } else if (!win) {
                 var tempTarget = [...target];
                 var t = []
                 //iterating through each letter of the guess
@@ -344,12 +361,13 @@ function App() {
                   if (tempTarget.includes(guess[i])) {
                     var y = false;
                     for (var j = 0; j < 5; j++) {
-                      if (target[j] == guess[i] && document.getElementById(i + String(currentRow)).style.backgroundColor != "rgb(106, 170, 100)") {
+                      if (target[j] == guess[i] && document.getElementById(i + String(currentRow)).style.backgroundColor != "rgb(106, 170, 100)" && !y) {
                         console.log(document.getElementById(i + String(currentRow)).style.backgroundColor);
                         document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
                         document.getElementById(i + String(currentRow)).style.borderColor = "#c9b458";
-                        document.getElementById(guess[i]).style.backgroundColor != "rgb(106, 170, 100)" && (document.getElementById(guess[i]).style.backgroundColor = "#c9b458");
-                        //tempTarget.splice(j, 1); check this out
+                        //document.getElementById(guess[i]).style.backgroundColor != "rgb(106, 170, 100)" && (document.getElementById(guess[i]).style.backgroundColor = "#c9b458");
+                        changeKeyColor("#c9b458", guess[i]);
+                        tempTarget.splice(j, 1);// check this out
                         //break;
                         y = true;
                       }
@@ -358,7 +376,8 @@ function App() {
                   if (document.getElementById(i + String(currentRow)).style.backgroundColor == "") {
                     document.getElementById(i + String(currentRow)).style.backgroundColor = "var(--joy-palette-neutral-150)";
                     document.getElementById(i + String(currentRow)).style.borderColor = "var(--joy-palette-neutral-150)";
-                    document.getElementById(guess[i]).style.backgroundColor = "var(--joy-palette-neutral-150)";
+                    //document.getElementById(guess[i]).style.backgroundColor = "var(--joy-palette-neutral-150)";
+                    changeKeyColor("var(--joy-palette-neutral-150)", guess[i]);
                     console.log(document.getElementById(guess[i]).style.backgroundColor);
                   }
                   document.getElementById(i + String(currentRow)).style.color = "white";
@@ -369,7 +388,8 @@ function App() {
                 setGuesses(temp);
                 setGuess("")
               }
-              if (guess == target || currentRow == 5) {
+              if (guess == target || currentRow == 6) {
+                win = true;
                 setLeaderboard(true);
               }
             }}>Enter</Button>
