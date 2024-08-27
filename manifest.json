@@ -1,7 +1,7 @@
 {
-  "short_name": "WORDLE INFINITE",
-  "name": "WORDLE INFINITE",
-  "start_url": "https://astarryknight.github.io/coptic_worlde_react/",
+  "short_name": "COPTIC WORDLE",
+  "name": "COPTIC WORDLE",
+  "start_url": "https://astarryknight.github.io/coptic_wordle_react/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
