@@ -397,10 +397,8 @@ function App() {
                   }
                   navigator.share({
                     title: title,
-                    text: board
+                    text: text
                   })
-                  alert(title);
-                  alert(text);
                   // url: '',
                 }}>Share</Button>
               </Sheet>
