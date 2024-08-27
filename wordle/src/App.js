@@ -33,7 +33,7 @@ import { extendTheme } from '@mui/joy/styles';
 
 
 //main js
-var target = "happy"
+var target = "ⲢⲞⲘⲠⲒ"
 var currentRow = 0;
 
 function getRandomInt(min, max) {
@@ -123,7 +123,7 @@ const theme = extendTheme({
       palette: {
         background: {
           body: '#121213',
-          backdrop: 'transparent'
+          backdrop: '#121213'
         },
         neutral: {
           50: '#818384',
@@ -138,7 +138,7 @@ const theme = extendTheme({
     light: {
       palette: {
         background: {
-          backdrop: 'transparent',
+          backdrop: '#fff',
         },
         neutral: {
           50: '#d3d6da',
@@ -208,7 +208,7 @@ function App() {
             </Sheet>
           </Sheet>
         </Modal>
-        <Modal open={howToPlay} onClose={() => setHowToPlay(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Modal className="modal" open={howToPlay} onClose={() => setHowToPlay(false)} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Sheet className="modal" sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <ModalClose />
             <Sheet sx={{ display: "flex", alignItems: "flex-start", width: "85%", maxWidth: "30rem" }}>
@@ -277,8 +277,8 @@ function App() {
           <Row rowNum="4" guess={guess} guesses={guesses} />
           <Row rowNum="5" guess={guess} guesses={guesses} />
         </Stack>
-        <Stack direction="column" alignItems="center" spacing={.7} id="keyboard">
-          <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
+        <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center", }} id="keyboard">
+          <Stack direction="row" spacing={.7} sx={{ marginBottom: "0.5rem" }}>
             <Key l="Ⲑ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲱ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲉ" guess={guess} setGuess={setGuess} />
@@ -288,9 +288,9 @@ function App() {
             <Key l="Ⲩ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲓ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲟ" guess={guess} setGuess={setGuess} />
-            <Key l="Ⲡ" guess={guess} setGuess={setGuess} />
           </Stack>
-          <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
+          <Stack direction="row" spacing={.7} sx={{ marginBottom: "0.5rem" }}>
+            <Key l="Ⲡ" guess={guess} setGuess={setGuess} />
             <Key l="Ϥ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲁ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲥ" guess={guess} setGuess={setGuess} />
@@ -298,11 +298,21 @@ function App() {
             <Key l="Ⲫ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲅ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲏ" guess={guess} setGuess={setGuess} />
+          </Stack>
+          <Stack direction="row" spacing={.7} sx={{ marginBottom: "0.5rem" }}>
             <Key l="Ϫ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲕ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲗ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϩ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϭ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲍ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲝ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲭ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϣ" guess={guess} setGuess={setGuess} />
           </Stack>
-          <Stack direction="row" spacing={.7} sx={{ height: "3.5em" }}>
+          <Stack direction="row" spacing={.7}>
             <Button id="enter" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () {
+              // var guess = guess.toLowerCase();
               if (guess.length < 5) {
                 for (i = 0; i < 5; i++) {
                   document.getElementById(i + String(currentRow)).style.borderColor = "#fa3939";
@@ -339,6 +349,7 @@ function App() {
                         document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
                         document.getElementById(i + String(currentRow)).style.borderColor = "#c9b458";
                         document.getElementById(guess[i]).style.backgroundColor != "rgb(106, 170, 100)" && (document.getElementById(guess[i]).style.backgroundColor = "#c9b458");
+                        //tempTarget.splice(j, 1); check this out
                         //break;
                         y = true;
                       }
@@ -348,6 +359,7 @@ function App() {
                     document.getElementById(i + String(currentRow)).style.backgroundColor = "var(--joy-palette-neutral-150)";
                     document.getElementById(i + String(currentRow)).style.borderColor = "var(--joy-palette-neutral-150)";
                     document.getElementById(guess[i]).style.backgroundColor = "var(--joy-palette-neutral-150)";
+                    console.log(document.getElementById(guess[i]).style.backgroundColor);
                   }
                   document.getElementById(i + String(currentRow)).style.color = "white";
                 }
@@ -361,16 +373,14 @@ function App() {
                 setLeaderboard(true);
               }
             }}>Enter</Button>
-            <Key l="Ⲗ" guess={guess} setGuess={setGuess} />
-            <Key l="Ϩ" guess={guess} setGuess={setGuess} />
-            <Key l="Ϭ" guess={guess} setGuess={setGuess} />
-            <Key l="Ⲍ" guess={guess} setGuess={setGuess} />
-            <Key l="Ⲝ" guess={guess} setGuess={setGuess} />
-            <Key l="Ⲭ" guess={guess} setGuess={setGuess} />
-            <Key l="Ϣ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲃ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲛ" guess={guess} setGuess={setGuess} />
+            <Key l="Ⲙ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϯ" guess={guess} setGuess={setGuess} />
+            <Key l="Ϧ" guess={guess} setGuess={setGuess} />
             <Button id="backspace" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () { ({ guess }.guess.length >= 0 && setGuess({ guess }.guess.substring(0, { guess }.guess.length - 1))) }}>Bksp</Button>
           </Stack>
-        </Stack>
+        </Sheet>
       </Sheet >
     </CssVarsProvider >
   );
