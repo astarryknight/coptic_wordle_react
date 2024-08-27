@@ -42,19 +42,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-//keyboard stuff! - not needed right now
-// const keyboardEventListener = (e) => {
-//   if (e.key === "Enter") { alert("entered!") }
-//   if (e.key === 'Backspace') { /*guess.length >= 0 && setGuess(guess.substring(0, guess.length - 1))*/console.log('') }
-//   if (alphabet.includes(e.key)) {
-//     //addLetter(e.key, guess, setGuess)
-//   } else {
-//     return;
-//   }
-// }
-
-// document.body.addEventListener('keydown', keyboardEventListener);
-
 function Row({ rowNum, guess, guesses }) {
   var n = parseInt(rowNum)
   if (n == currentRow) {
@@ -97,6 +84,80 @@ function Key({ l, guess, setGuess }) {
 }
 //({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l))
 
+function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
+  return (
+    <Button id="enter" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () {
+      // var guess = guess.toLowerCase();
+      if (guess.length < 5 && !win) {
+        for (i = 0; i < 5; i++) {
+          document.getElementById(i + String(currentRow)).style.borderColor = "#fa3939";
+          console.log(document.getElementById(i + String(currentRow)))
+        }
+      } else if (!win) {
+        if (!loading) {
+          wordleData.guesses = [...wordleData.guesses, guess]
+          saveData();
+        }
+        var tempTarget = [...target];
+        var t = []
+        //iterating through each letter of the guess
+
+        for (var i = 0; i < 5; i++) {
+          if (guess[i] == target[i]) {
+            document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
+            document.getElementById(i + String(currentRow)).style.borderColor = "#6aaa64";
+            document.getElementById(guess[i]).style.backgroundColor = "#6aaa64";
+            //tempTarget.splice(i, 1)
+            t.push(i)
+          }
+        }
+
+        //probably use filter here instead...
+
+        for (var i = 0; i < t.length; i++) {
+          tempTarget.splice(t[i] - i, 1);
+        }
+        console.log(tempTarget)
+
+        for (var i = 0; i < 5; i++) {
+          if (tempTarget.includes(guess[i])) {
+            var y = false;
+            for (var j = 0; j < 5; j++) {
+              if (target[j] == guess[i] && document.getElementById(i + String(currentRow)).style.backgroundColor != "rgb(106, 170, 100)" && !y) {
+                console.log(document.getElementById(i + String(currentRow)).style.backgroundColor);
+                document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
+                document.getElementById(i + String(currentRow)).style.borderColor = "#c9b458";
+                //document.getElementById(guess[i]).style.backgroundColor != "rgb(106, 170, 100)" && (document.getElementById(guess[i]).style.backgroundColor = "#c9b458");
+                changeKeyColor("#c9b458", guess[i]);
+                tempTarget.splice(j, 1);// check this out
+                //break;
+                y = true;
+              }
+            }
+          }
+          if (document.getElementById(i + String(currentRow)).style.backgroundColor == "") {
+            document.getElementById(i + String(currentRow)).style.backgroundColor = "var(--joy-palette-neutral-150)";
+            document.getElementById(i + String(currentRow)).style.borderColor = "var(--joy-palette-neutral-150)";
+            //document.getElementById(guess[i]).style.backgroundColor = "var(--joy-palette-neutral-150)";
+            changeKeyColor("var(--joy-palette-neutral-150)", guess[i]);
+            console.log(document.getElementById(guess[i]).style.backgroundColor);
+          }
+          document.getElementById(i + String(currentRow)).style.color = "white";
+        }
+
+        currentRow++;
+        var temp = [...guesses, guess];
+        setGuesses(temp);
+        setGuess("")
+      }
+      if (guess == target || currentRow == 6) {
+        win = true;
+        setLeaderboard(true);
+      }
+    }}>Enter</Button>
+  )
+}
+
 function addLetter(l, guess, setGuess) {
   guess.length <= 4 && setGuess(guess + l)
 }
@@ -125,14 +186,65 @@ function changeKeyColor(color, id) {
   }
 }
 
+var wordleData = {
+  currentStreak: 0,
+  maxStreak: 0,
+  plays: 0,
+  wins: 0,
+  guesses: []
+}
+
 //save/load funcs
 function saveData() {
-
+  localStorage.setItem("data", JSON.stringify(wordleData)); //btoa
 }
+
+//saveData();
 
 function loadData() {
-
+  localStorage.getItem("data") == null && saveData();
+  wordleData = JSON.parse(localStorage.getItem("data")); //atob
 }
+
+//delay funcion
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+var loading = false;
+async function load() {
+  loadData();
+  var pastGuesses = wordleData.guesses;
+
+  loading = true;
+  for (var i = 0; i < pastGuesses.length; i++) {
+    for (var j = 0; j < pastGuesses[i].length; j++) {
+      console.log(pastGuesses[i][j]);
+      document.getElementById(pastGuesses[i][j]).click();
+      await (delay(.001));
+    }
+    document.getElementById("enter").click();
+    await (delay(.001));
+  }
+  loading = false;
+}
+
+window.onload = load;
+
+// const mouseClickEvents = ['mousedown'];
+// function simulateMouseClick(element) {
+//   mouseClickEvents.forEach(mouseEventType =>
+//     element.dispatchEvent(
+//       new MouseEvent(mouseEventType, {
+//         view: window,
+//         bubbles: true,
+//         cancelable: true,
+//         buttons: 1
+//       })
+//     )
+//   );
+// }
+
+// var element = document.querySelector('enter');
+// simulateMouseClick(element);
 
 const theme = extendTheme({
   colorSchemes: {
@@ -328,71 +440,7 @@ function App() {
             <Key l="Ϣ" guess={guess} setGuess={setGuess} />
           </Stack>
           <Stack direction="row" spacing={.7}>
-            <Button id="enter" className="key" sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={function () {
-              // var guess = guess.toLowerCase();
-              if (guess.length < 5 && !win) {
-                for (i = 0; i < 5; i++) {
-                  document.getElementById(i + String(currentRow)).style.borderColor = "#fa3939";
-                  console.log(document.getElementById(i + String(currentRow)))
-                }
-              } else if (!win) {
-                var tempTarget = [...target];
-                var t = []
-                //iterating through each letter of the guess
-
-                for (var i = 0; i < 5; i++) {
-                  if (guess[i] == target[i]) {
-                    document.getElementById(i + String(currentRow)).style.backgroundColor = "#6aaa64";
-                    document.getElementById(i + String(currentRow)).style.borderColor = "#6aaa64";
-                    document.getElementById(guess[i]).style.backgroundColor = "#6aaa64";
-                    //tempTarget.splice(i, 1)
-                    t.push(i)
-                  }
-                }
-
-                //probably use filter here instead...
-
-                for (var i = 0; i < t.length; i++) {
-                  tempTarget.splice(t[i] - i, 1);
-                }
-                console.log(tempTarget)
-
-                for (var i = 0; i < 5; i++) {
-                  if (tempTarget.includes(guess[i])) {
-                    var y = false;
-                    for (var j = 0; j < 5; j++) {
-                      if (target[j] == guess[i] && document.getElementById(i + String(currentRow)).style.backgroundColor != "rgb(106, 170, 100)" && !y) {
-                        console.log(document.getElementById(i + String(currentRow)).style.backgroundColor);
-                        document.getElementById(i + String(currentRow)).style.backgroundColor = "#c9b458";
-                        document.getElementById(i + String(currentRow)).style.borderColor = "#c9b458";
-                        //document.getElementById(guess[i]).style.backgroundColor != "rgb(106, 170, 100)" && (document.getElementById(guess[i]).style.backgroundColor = "#c9b458");
-                        changeKeyColor("#c9b458", guess[i]);
-                        tempTarget.splice(j, 1);// check this out
-                        //break;
-                        y = true;
-                      }
-                    }
-                  }
-                  if (document.getElementById(i + String(currentRow)).style.backgroundColor == "") {
-                    document.getElementById(i + String(currentRow)).style.backgroundColor = "var(--joy-palette-neutral-150)";
-                    document.getElementById(i + String(currentRow)).style.borderColor = "var(--joy-palette-neutral-150)";
-                    //document.getElementById(guess[i]).style.backgroundColor = "var(--joy-palette-neutral-150)";
-                    changeKeyColor("var(--joy-palette-neutral-150)", guess[i]);
-                    console.log(document.getElementById(guess[i]).style.backgroundColor);
-                  }
-                  document.getElementById(i + String(currentRow)).style.color = "white";
-                }
-
-                currentRow++;
-                var temp = [...guesses, guess];
-                setGuesses(temp);
-                setGuess("")
-              }
-              if (guess == target || currentRow == 6) {
-                win = true;
-                setLeaderboard(true);
-              }
-            }}>Enter</Button>
+            <Enter guess={guess} guesses={guesses} setGuess={setGuess} setGuesses={setGuesses} setLeaderboard={setLeaderboard} />
             <Key l="Ⲃ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲛ" guess={guess} setGuess={setGuess} />
             <Key l="Ⲙ" guess={guess} setGuess={setGuess} />
