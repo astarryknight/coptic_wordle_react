@@ -1,8 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 //components
 import Stack from '@mui/joy/Stack';
@@ -15,33 +13,31 @@ import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
-import Alert from '@mui/material/Alert';
 
 //icons
 import Moon from '@mui/icons-material/DarkMode';
 import Sun from '@mui/icons-material/LightMode';
 import HowToPlayIcon from '@mui/icons-material/HelpOutline';
 import LeaderBoardIcon from '@mui/icons-material/Leaderboard';
-import ShareIcon from "@mui/icons-material/Share";
+import Share from '@mui/icons-material/Share';
 
 //Theme toggle support
 import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
-
 import { extendTheme } from '@mui/joy/styles';
-import Share from '@mui/icons-material/Share';
 
+//    MAIN JS    //
 
-//main js
+//Variables
 var target = "ϢⲞⲨⲢⲎ"
 var currentRow = 0;
 var board = []//🟩🟨⬛
+var win = false;
+var word = "?????";
+var definition = "Censer";
+var pronunciation = "?????";
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
+//React Components
 function Row({ rowNum, guess, guesses }) {
   var n = parseInt(rowNum)
   if (n == currentRow) {
@@ -82,7 +78,6 @@ function Key({ l, guess, setGuess }) {
     <Button className="key" id={l} sx={{ backgroundColor: "neutral.50", color: "black", fontWeight: "bold" }} onClick={() => { !win && addLetter(l, guess, setGuess) }}>{l.toUpperCase()}</Button>
   )
 }
-//({ guess }.guess.length <= 4 && setGuess({ guess }.guess + l))
 
 function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
   return (
@@ -183,10 +178,6 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
   )
 }
 
-function addLetter(l, guess, setGuess) {
-  guess.length <= 4 && setGuess(guess + l)
-}
-
 function ThemeToggle() {
   const { mode, setMode } = useColorScheme();
   mode === 'light' ? metaTag.setAttribute("content", "#fff") : metaTag.setAttribute("content", "#121213"); //maybe this'll work?
@@ -202,6 +193,12 @@ function ThemeToggle() {
   );
 }
 
+
+//Helper Functions
+function addLetter(l, guess, setGuess) {
+  guess.length <= 4 && setGuess(guess + l)
+}
+
 function changeKeyColor(color, id) {
   var el = document.getElementById(id);
   const g = "rgb(106, 170, 100)";
@@ -211,6 +208,14 @@ function changeKeyColor(color, id) {
   }
 }
 
+function getCurrentDay() {
+  var d = Date.now();
+  var day = 24 * 60 * 60 * 1000;
+  return Math.floor(d / day) - 19961; //have to tune this later
+}
+
+
+//Data Storage and Handling
 var wordleData = {
   currentStreak: 0,
   maxStreak: 0,
@@ -222,7 +227,7 @@ var wordleData = {
   guesses: []
 }
 
-//save/load funcs
+//Save/Load data - TODO - figure out to encode Coptic unicdoe (UTF-8?)
 function saveData() {
   localStorage.setItem("data", JSON.stringify(wordleData)); //btoa
 }
@@ -239,15 +244,13 @@ function loadData() {
 
 //delay funcion
 const delay = ms => new Promise(res => setTimeout(res, ms));
-
 var loading = false;
+
 async function load() {
   loadData();
-
   if (!(wordleData.lastWon == getCurrentDay() || wordleData.lastWon + 1 == getCurrentDay())) {
     wordleData.currentStreak = 0;
   }
-
   if (wordleData.lastPlayed == getCurrentDay()) {
     //you already played today, huh?
     //autoloading previous words
@@ -278,18 +281,12 @@ async function load() {
     wordleData.won = false;
     saveData();
   }
-
-  console.log(getCurrentDay())
 }
 
 window.onload = load;
 
-function getCurrentDay() {
-  var d = Date.now();
-  var day = 24 * 60 * 60 * 1000;
-  return Math.floor(d / day) - 19961; //have to tune this later
-}
 
+//Theme definitions
 const theme = extendTheme({
   colorSchemes: {
     dark: {
@@ -330,12 +327,8 @@ const theme = extendTheme({
 //green: #6aaa64
 //yellow: #c9b458
 
+//set colors for safari's top section
 const metaTag = document.querySelector('meta[name="theme-color"]');
-var win = false;
-
-var word = "?????";
-var definition = "Censer";
-var pronunciation = "?????";
 
 function App() {
 
