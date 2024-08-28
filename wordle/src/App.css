@@ -93,7 +93,7 @@ p {
 
 @font-face {
   font-family: 'Coptic';
-  src: url(./Coptic1.otf) format('opentype');
+  src: url(./Coptic-Normal.otf) format('opentype');
   unicode-range: U+0000-00FF, U+0370-03FF, U+2C80-2CFF;
 }
 
