@@ -25,17 +25,26 @@ import Share from '@mui/icons-material/Share';
 import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
 import { extendTheme } from '@mui/joy/styles';
 
+//Data import
+import wordData from "./words.json"
+
 //    MAIN JS    //
 
 //Variables
-var target = "ϢⲞⲨⲢⲎ"
+var target = "ϢⲞⲨⲢⲎ" //default ig?
 var currentRow = 0;
 var board = []//🟩🟨⬛
 var win = false;
-var word = "?????";
-var definition = "Censer";
-var pronunciation = "?????";
+var lower = "ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥϧϩϫϭϯ";
+var upper = "ⲀⲂⲄⲆⲈⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠⲢⲤⲦⲨⲪⲬⲮϢϤϦϨϪϬϮ";
 
+var wordObj = wordData.words[getCurrentDay() - 1]; //error handling if the word is out of bounds?
+target = copticToUpper(wordObj.word);
+
+//React text variables
+var word = "?????";
+var definition = wordObj.definition;
+var pronunciation = wordObj.pronunciation;
 
 //React Components
 function Row({ rowNum, guess, guesses }) {
@@ -165,13 +174,11 @@ function Enter({ guess, guesses, setGuess, setGuesses, setLeaderboard }) {
         }
         saveData();
         word = target;
-        pronunciation = "shouree"
         setLeaderboard(true);
       }
       if (currentRow == 6) {
         wordleData.currentStreak = 0;
         word = target;
-        pronunciation = "shouree"
         setLeaderboard(true);
       }
     }}>Enter</Button>
@@ -211,11 +218,8 @@ function changeKeyColor(color, id) {
 function getCurrentDay() {
   var d = Date.now();
   var day = 24 * 60 * 60 * 1000;
-  return Math.floor(d / day) - 19961; //have to tune this later
+  return Math.floor(d / day) - 19962; //have to tune this later
 }
-
-var lower = "ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥϧϩϫϭϯ"
-var upper = "ⲀⲂⲄⲆⲈⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠⲢⲤⲦⲨⲪⲬⲮϢϤϦϨϪϬϮ"
 
 function copticToUpper(string) {
   var returnString = ""
@@ -388,9 +392,9 @@ function App() {
                 <Typography level="h1" sx={{ color: "primary.50", marginTop: ".25em", fontWeight: "bold", fontFamily: "Coptic" }}>{word}</Typography>
               </Sheet>
               <Typography level="body-md" sx={{ color: "primary.50", marginTop: "1rem", fontWeight: "bold" }}>Definition: <span style={{ fontWeight: "normal" }}>{definition}</span></Typography>
-              <Typography level="body-md" sx={{ color: "primary.50", fontWeight: "bold" }}>Pronunciation: <span style={{ fontWeight: "normal" }}>"{pronunciation}"</span></Typography>
+              <Typography level="body-md" sx={{ color: "primary.50", fontWeight: "bold" }}>Pronunciation: <span style={{ fontWeight: "normal" }}>"{wordleData.won || currentRow == 6 ? pronunciation : "?????"}"</span></Typography>
               <Sheet sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%", marginTop: "2rem" }}>
-                <Button variant="solid" disabled={wordleData.won ? false : true} startDecorator={<Share />} onClick={() => {
+                <Button variant="solid" disabled={wordleData.won || currentRow == 6 ? false : true} startDecorator={<Share />} onClick={() => {
                   var title = 'Coptic Wordle #' + (getCurrentDay()) + ' - ' + (currentRow + '/6');
                   var text = title + '\n';
                   for (var i = 0; i < board.length; i++) {
