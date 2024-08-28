@@ -214,6 +214,17 @@ function getCurrentDay() {
   return Math.floor(d / day) - 19961; //have to tune this later
 }
 
+var lower = "ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥϧϩϫϭϯ"
+var upper = "ⲀⲂⲄⲆⲈⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠⲢⲤⲦⲨⲪⲬⲮϢϤϦϨϪϬϮ"
+
+function copticToUpper(string) {
+  var returnString = ""
+  for (var i = 0; i < string.length; i++) {
+    returnString += upper[lower.indexOf(string[i])];
+  }
+  return returnString;
+}
+
 
 //Data Storage and Handling
 var wordleData = {
