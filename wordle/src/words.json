@@ -1,13 +1,64 @@
 {
     "words": {
         "0": {
-            "word": "ⲁⲛⲟⲩⲧ",
-            "definition": "to give",
-            "pronunciation": "anout"
+            "word": "ⲁⲃⲟⲕⲓ",
+            "definition": "crows",
+            "pronunciation": "aboki"
         },
         "1": {
-            "word": "ⲁⲛⲟⲩⲧ",
-            "definition": "to give"
+            "word": "ⲁⲗⲟⲗⲓ",
+            "definition": "grape",
+            "pronunciation": "ɑloli"
+        },
+        "2": {
+            "word": "ⲁⲝⲓⲟⲥ",
+            "definition": "worthy",
+            "pronunciation": "ɑxios"
+        },
+        "3": {
+            "word": "ⲁⲣⲉⲧⲏ",
+            "definition": "virtue",
+            "pronunciation": "arety"
+        },
+        "4": {
+            "word": "ⲃⲱϩⲉⲙ",
+            "definition": "hymn, worship",
+            "pronunciation": "bohem"
+        },
+        "5": {
+            "word": "ⲉⲣⲫⲉⲓ",
+            "definition": "temple; sanctuary",
+            "pronunciation": "ervei"
+        },
+        "6": {
+            "word": "ⲙⲁⲧⲟⲓ",
+            "definition": "soldier; footsoldier",
+            "pronunciation": "matoi"
+        },
+        "7": {
+            "word": "ⲉϩⲟⲟⲩ",
+            "definition": "day",
+            "pronunciation": "eho-ou"
+        },
+        "8": {
+            "word": "ⲣⲟⲙⲡⲓ",
+            "definition": "year",
+            "pronunciation": "rompi"
+        },
+        "9": {
+            "word": "ⲟⲩϩⲟⲣ",
+            "definition": "dog",
+            "pronunciation": "ouhor"
+        },
+        "10": {
+            "word": "Ϩⲁⲗⲁϯ",
+            "definition": "bird, flying creature",
+            "pronunciation": "halatee"
+        },
+        "11": {
+            "word": "ⲧⲉⲃⲛⲏ",
+            "definition": "animal, beast",
+            "pronunciation": "tebnee"
         }
     }
 }
