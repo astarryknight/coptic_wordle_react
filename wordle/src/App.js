@@ -38,7 +38,7 @@ var win = false;
 var lower = "ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥϧϩϫϭϯ";
 var upper = "ⲀⲂⲄⲆⲈⲌⲎⲐⲒⲔⲖⲘⲚⲜⲞⲠⲢⲤⲦⲨⲪⲬⲮϢϤϦϨϪϬϮ";
 
-var wordObj = wordData.words[getCurrentDay() - 1]; //error handling if the word is out of bounds?
+var wordObj = wordData.words[0]//getCurrentDay() - 1]; //error handling if the word is out of bounds?
 target = copticToUpper(wordObj.word);
 
 //React text variables
