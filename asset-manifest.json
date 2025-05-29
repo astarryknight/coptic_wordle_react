@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/coptic_wordle_react/static/css/main.33cc89d4.css",
-    "main.js": "/coptic_wordle_react/static/js/main.f80dee85.js",
+    "main.js": "/coptic_wordle_react/static/js/main.e6193197.js",
     "static/js/453.5c0c658b.chunk.js": "/coptic_wordle_react/static/js/453.5c0c658b.chunk.js",
     "static/media/Coptic-Normal.otf": "/coptic_wordle_react/static/media/Coptic-Normal.834d95cd923f11e53ddb.otf",
     "static/media/logo.svg": "/coptic_wordle_react/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/coptic_wordle_react/index.html",
     "main.33cc89d4.css.map": "/coptic_wordle_react/static/css/main.33cc89d4.css.map",
-    "main.f80dee85.js.map": "/coptic_wordle_react/static/js/main.f80dee85.js.map",
+    "main.e6193197.js.map": "/coptic_wordle_react/static/js/main.e6193197.js.map",
     "453.5c0c658b.chunk.js.map": "/coptic_wordle_react/static/js/453.5c0c658b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.33cc89d4.css",
-    "static/js/main.f80dee85.js"
+    "static/js/main.e6193197.js"
   ]
 }
